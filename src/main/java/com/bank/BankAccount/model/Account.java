@@ -20,6 +20,9 @@ import javax.persistence.Table;
 @Table(name = "ACCOUNT")
 public class Account  implements Serializable{
 	
+	
+	private static final long serialVersionUID = 9006979669750226556L;
+
 	@Id
 	@Column(name="ACCOUNT_ID")
 	@GeneratedValue(strategy=GenerationType.AUTO)

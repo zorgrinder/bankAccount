@@ -19,6 +19,9 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Table(name = "CLIENT")
 public class Client  implements Serializable{
 	
+	
+	private static final long serialVersionUID = -2844182272978558638L;
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="CLIENT_ID")
