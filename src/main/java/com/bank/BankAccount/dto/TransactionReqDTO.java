@@ -5,7 +5,7 @@ import javax.validation.constraints.NotNull;
 import com.bank.BankAccount.model.TransactionType;
 
 
-public class TransactionDTO {
+public class TransactionReqDTO {
 	
 	
 	@NotNull(message = "TransactionType is a required field")

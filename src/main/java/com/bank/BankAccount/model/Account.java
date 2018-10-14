@@ -14,6 +14,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Version;
+
+
 
 
 @Entity
@@ -38,6 +41,10 @@ public class Account  implements Serializable{
 	
 	@OneToMany(targetEntity=Transaction.class, mappedBy="account", fetch=FetchType.LAZY)
 	private List<Transaction> transactions;
+	
+	 @Version
+	 @Column(name = "VERSION")
+	 private Integer version;
 	
 	public Account() {
 		transactions = new ArrayList<>();
@@ -92,6 +99,16 @@ public class Account  implements Serializable{
 
 	public void setTransactions(List<Transaction> transactions) {
 		this.transactions = transactions;
+	}
+
+
+	public Integer getVersion() {
+		return version;
+	}
+
+
+	public void setVersion(Integer version) {
+		this.version = version;
 	}
 	
 	

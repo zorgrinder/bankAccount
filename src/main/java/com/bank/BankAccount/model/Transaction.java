@@ -14,10 +14,15 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name = "TRANSACTION")
 public class Transaction implements Serializable {
 	
+
+	private static final long serialVersionUID = 8136098321762471545L;
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="TRANSACTION_ID")
