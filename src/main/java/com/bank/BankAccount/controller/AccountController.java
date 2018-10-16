@@ -21,18 +21,18 @@ public class AccountController {
 	@Autowired
     private AccountRepository accountRepository;
 	
+	@Autowired
+	private ModelMapper modelMapper;
 	
 	@GetMapping("/account") 
     public ApiResponse getAccount(@RequestParam Long clientId) {
 		List<Account> accounts = accountRepository.findByClientId(clientId);
 		if(accounts.isEmpty()) {
 			return new ApiResponse(0, "Aucun élémenent trouvé",accounts);
-		}else {
-			ModelMapper modelMapper = new ModelMapper();
-			java.lang.reflect.Type targetListType = new TypeToken<List<AccountDTO>>() {}.getType();
-		    List<AccountDTO> AccountsDTO = modelMapper.map(accounts, targetListType);
-			return new ApiResponse(0, "SUCCESS",AccountsDTO);
 		}
+		java.lang.reflect.Type targetListType = new TypeToken<List<AccountDTO>>() {}.getType();
+		List<AccountDTO> AccountsDTO = modelMapper.map(accounts, targetListType);
+		return new ApiResponse(0, "SUCCESS",AccountsDTO);
     }
 
 }

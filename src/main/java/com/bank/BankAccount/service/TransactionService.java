@@ -2,9 +2,7 @@ package com.bank.BankAccount.service;
 
 import java.util.Optional;
 
-import javax.persistence.OptimisticLockException;
 import javax.transaction.Transactional;
-
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,30 +25,26 @@ public class TransactionService {
 	@Autowired
     private TransactionRepository transactionRepository;
 	
+	@Autowired
+	private ModelMapper modelMapper;
+
+	
 	@Transactional(rollbackOn=Exception.class)
 	public TransactionResDTO createTransaction(Long accountId, TransactionReqDTO transactionDTO) throws Exception {
 		
 		Optional<Account> optionalAccount = accountRepository.findById(accountId);
 		
-		if(optionalAccount.isPresent()) {
-			Account account = optionalAccount.get();
-			
-			ModelMapper modelMapper = new ModelMapper();
-			Transaction transaction = modelMapper.map(transactionDTO, Transaction.class);
-			
-			double postBalance = getPostBalance(transaction,account.getBalance());
-			
-			Account accountUpdated = saveBalanceAccount(account, postBalance);
-			
-			transaction.setAccount(accountUpdated);
-			
-			Transaction transactionUpdated = savePostBalanceTransaction(transaction, postBalance);
-			return modelMapper.map(transactionUpdated, TransactionResDTO.class);
-			
-			
-		}else {
+		if(!optionalAccount.isPresent()) {
 			throw new CustomNotFoundException(accountId.toString(),"ACCOUNT");
 		}
+		Account account = optionalAccount.get();
+		Transaction transaction = modelMapper.map(transactionDTO, Transaction.class);
+		double postBalance = getPostBalance(transaction,account.getBalance());
+		Account accountUpdated = saveBalanceAccount(account, postBalance);
+		transaction.setAccount(accountUpdated);
+		Transaction transactionUpdated = savePostBalanceTransaction(transaction, postBalance);
+		
+		return modelMapper.map(transactionUpdated, TransactionResDTO.class);
 		
 	}
 	

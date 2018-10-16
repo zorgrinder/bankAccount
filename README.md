@@ -26,4 +26,6 @@ Create a DEBIT or CREDIT transaction
 Calculate post transation balance    
 Update account balance    
 Transactional supported (Rollback activated for any exception)       
-Optimistic concurrency control on Account table supported (protect balance value integrity)     
+Optimistic concurrency control on Account table supported (protect balance value integrity)  
+
+TODO handle BAD_REQUEST Error    

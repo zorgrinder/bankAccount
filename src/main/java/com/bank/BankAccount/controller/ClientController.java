@@ -20,19 +20,18 @@ public class ClientController {
 	@Autowired
     private ClientRepository clientRepository;
 	
+	@Autowired
+	private ModelMapper modelMapper;
 	
 	@GetMapping("/clients")
     public ApiResponse getClients() {
 		List<Client> clients = clientRepository.findAll();
 		if(clients.isEmpty()) {
 			return new ApiResponse(0, "Aucun élémenent trouvé",clients);
-		}else {
-			ModelMapper modelMapper = new ModelMapper();
-			java.lang.reflect.Type targetListType = new TypeToken<List<ClientDTO>>() {}.getType();
-		    List<ClientDTO> clientsDTO = modelMapper.map(clients, targetListType);
-			
-			return new ApiResponse(0, "SUCCESS",clientsDTO);
-		} 
+		}
+		java.lang.reflect.Type targetListType = new TypeToken<List<ClientDTO>>() {}.getType();
+		List<ClientDTO> clientsDTO = modelMapper.map(clients, targetListType);
+		return new ApiResponse(0, "SUCCESS",clientsDTO);
 	}
 
 }

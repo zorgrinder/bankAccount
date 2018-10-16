@@ -53,7 +53,7 @@ public class TransactionTests {
 				
 		double postBalance = transactionService.getPostBalance(transaction, 100);
 		
-		Assert.assertEquals(postBalance, 200, 0);
+		Assert.assertEquals(200,postBalance, 0);
 	}
 	
 	
@@ -66,7 +66,7 @@ public class TransactionTests {
 				
 		double postBalance = transactionService.getPostBalance(transaction, 100);
 		
-		Assert.assertEquals(postBalance, 0, 0);
+		Assert.assertEquals(0, postBalance, 0);
 	}
 	
 	
@@ -86,7 +86,7 @@ public class TransactionTests {
 		Account accountAfter = new Account(1L,"DDE",200, null, new ArrayList<Transaction>());
 		when(accountRepository.save(accountBefore)).thenReturn(accountAfter);
 		Account accountResult = transactionService.saveBalanceAccount(accountBefore, 200);
-		Assert.assertEquals(accountResult.getBalance(), 200, 0);
+		Assert.assertEquals(200, accountResult.getBalance(), 0);
 	}
 
 	

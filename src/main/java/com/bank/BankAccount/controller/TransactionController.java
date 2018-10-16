@@ -2,10 +2,12 @@ package com.bank.BankAccount.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,23 +31,23 @@ public class TransactionController extends ResponseEntityExceptionHandler{
 	@Autowired
 	private TransactionService transactionService;
 	
+	@Autowired
+	private ModelMapper modelMapper;
+	
 	@GetMapping("/transaction")
     public ApiResponse getTransactions(@RequestParam("accountId") Long accountId) {
 		List<Transaction> transactions = transactionRepository.findByAccountId(accountId);
 		if(transactions.isEmpty()) {
 			return new ApiResponse(0, "Aucun élémenent trouvé",transactions);
 		}
-
-		ModelMapper modelMapper = new ModelMapper();
 		java.lang.reflect.Type targetListType = new TypeToken<List<TransactionResDTO>>() {}.getType();
 	    List<TransactionResDTO> transactionOutDTO = modelMapper.map(transactions, targetListType);
 		return new ApiResponse(0, "SUCCESS",transactionOutDTO); 
     }
 	
 	@PostMapping("/transaction")
-    public ApiResponse createTransaction(@RequestBody TransactionReqDTO transactionDTO, @RequestParam("accountId") Long accountId  
-    		) throws Exception{
-			TransactionResDTO trans = transactionService.createTransaction(accountId, transactionDTO);
-			return new ApiResponse(0, "SUCCESS",trans); 
+    public ApiResponse createTransaction( @RequestBody @Valid TransactionReqDTO transactionDTO, @RequestParam("accountId") Long accountId) throws Exception {
+		TransactionResDTO trans = transactionService.createTransaction(accountId, transactionDTO);
+		return new ApiResponse(0, "SUCCESS",trans); 
     }
 }
